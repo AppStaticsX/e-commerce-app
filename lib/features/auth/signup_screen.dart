@@ -145,8 +145,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return 'First name is required';
+                      }
                       return null;
                     },
                   ),
@@ -165,8 +166,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return 'Last name is required';
+                      }
                       return null;
                     },
                   ),
@@ -187,8 +189,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     readOnly: true,
                     onTap: () => _selectDate(context),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return 'Date of Birth is required';
+                      }
                       return null;
                     },
                   ),
@@ -198,7 +201,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextFormField(
                     controller: _emailController,
                     decoration: _inputDecoration(
-                      'Email address*'.toUpperCase(),
+                      'Email address'.toUpperCase(),
                       prefixIcon: Icon(
                         Iconsax.sms_copy,
                         color: Colors.grey.shade600,
@@ -208,10 +211,12 @@ class _SignupScreenState extends State<SignupScreen> {
                     keyboardType: TextInputType.emailAddress,
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return 'Email is required';
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value))
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                         return 'Enter a valid email';
+                      }
                       return null;
                     },
                   ),
@@ -221,7 +226,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextFormField(
                     controller: _passwordController,
                     decoration: _inputDecoration(
-                      'Password*'.toUpperCase(),
+                      'Password'.toUpperCase(),
                       prefixIcon: Icon(
                         Iconsax.lock_copy,
                         color: Colors.grey.shade600,
@@ -245,10 +250,12 @@ class _SignupScreenState extends State<SignupScreen> {
                     obscureText: !_isPasswordVisible,
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return 'Password is required';
-                      if (value.length < 6)
+                      }
+                      if (value.length < 6) {
                         return 'Must be at least 6 characters';
+                      }
                       return null;
                     },
                   ),
