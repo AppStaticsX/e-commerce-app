@@ -12,6 +12,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
@@ -44,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
-  InputDecoration _inputDecoration(String label, {Widget? suffixIcon}) {
+  InputDecoration _inputDecoration(String label, {Widget? suffixIcon, Widget? prefixIcon}) {
     return InputDecoration(
       labelText: label,
       labelStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: const Color(0xFF6B7280)),
@@ -59,7 +60,16 @@ class _SignupScreenState extends State<SignupScreen> {
         borderRadius: BorderRadius.circular(4),
         borderSide: const BorderSide(color: Colors.black, width: 1.5),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.redAccent, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+      ),
       suffixIcon: suffixIcon,
+      prefixIcon: prefixIcon,
     );
   }
 
@@ -68,8 +78,10 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,45 +116,75 @@ class _SignupScreenState extends State<SignupScreen> {
                 const SizedBox(height: 40),
 
                 // First Name
-                TextField(
+                TextFormField(
                   controller: _firstNameController,
-                  decoration: _inputDecoration('First Name'),
+                  decoration: _inputDecoration(
+                    'First Name'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.user_copy, color: Colors.grey.shade600, size: 20),
+                  ),
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'First name is required';
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 // Last Name
-                TextField(
+                TextFormField(
                   controller: _lastNameController,
-                  decoration: _inputDecoration('Last Name'),
+                  decoration: _inputDecoration(
+                    'Last Name'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.user_copy, color: Colors.grey.shade600, size: 20),
+                  ),
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Last name is required';
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 // Date Of Birth
-                TextField(
+                TextFormField(
                   controller: _dobController,
-                  decoration: _inputDecoration('Date Of Birth'),
+                  decoration: _inputDecoration(
+                    'Date Of Birth'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.calendar_1_copy, color: Colors.grey.shade600, size: 20),
+                  ),
                   style: Theme.of(context).textTheme.bodyLarge,
                   readOnly: true,
                   onTap: () => _selectDate(context),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Date of Birth is required';
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 // Email
-                TextField(
+                TextFormField(
                   controller: _emailController,
-                  decoration: _inputDecoration('Email address*'),
+                  decoration: _inputDecoration(
+                    'Email address*'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.sms_copy, color: Colors.grey.shade600, size: 20),
+                  ),
                   keyboardType: TextInputType.emailAddress,
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Email is required';
+                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) return 'Enter a valid email';
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 // Password
-                TextField(
+                TextFormField(
                   controller: _passwordController,
                   decoration: _inputDecoration(
-                    'Password*',
+                    'Password*'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.lock_copy, color: Colors.grey.shade600, size: 20),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isPasswordVisible ? LucideIcons.eyeOff : LucideIcons.eye,
@@ -158,6 +200,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   obscureText: !_isPasswordVisible,
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Password is required';
+                    if (value.length < 6) return 'Must be at least 6 characters';
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 24),
 
@@ -210,7 +257,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 PrimaryButton(
                   text: 'CREATE ACCOUNT',
                   onPressed: () {
-                    // Navigate to home or wherever appropriate
+                    if (_formKey.currentState!.validate()) {
+                      // Navigate to home or wherever appropriate
+                      context.go('/home');
+                    }
                   },
                 ),
                 const SizedBox(height: 24),
@@ -246,6 +296,6 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

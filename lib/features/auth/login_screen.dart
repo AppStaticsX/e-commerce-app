@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -42,6 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(4),
         borderSide: const BorderSide(color: Colors.black, width: 1.5),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.redAccent, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+      ),
       suffixIcon: suffixIcon,
       prefixIcon: prefixIcon,
     );
@@ -52,8 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -88,23 +99,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
 
                 // Email
-                TextField(
+                TextFormField(
                   controller: _emailController,
                   decoration: _inputDecoration(
-                    'Email address*',
-                    prefixIcon: Icon(LucideIcons.mail, color: Colors.grey.shade600, size: 20),
+                    'Email address*'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.sms_copy, color: Colors.grey.shade600, size: 20),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
 
                 // Password
-                TextField(
+                TextFormField(
                   controller: _passwordController,
                   decoration: _inputDecoration(
-                    'Password*',
-                    prefixIcon: Icon(LucideIcons.lock, color: Colors.grey.shade600, size: 20),
+                    'Password*'.toUpperCase(),
+                    prefixIcon: Icon(Iconsax.lock_copy, color: Colors.grey.shade600, size: 20),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isPasswordVisible ? LucideIcons.eyeOff : LucideIcons.eye,
@@ -120,6 +140,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   obscureText: !_isPasswordVisible,
                   style: Theme.of(context).textTheme.bodyLarge,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 24),
 
@@ -145,12 +174,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     return PrimaryButton(
                       text: 'LOG IN',
                       onPressed: () async {
-                        ref.read(loaderMessageProvider.notifier).updateMessage('LOGGING...');
-                        context.loaderOverlay.show();
-                        await Future.delayed(const Duration(seconds: 3));
-                        if (context.mounted) {
-                          context.loaderOverlay.hide();
-                          context.go('/home');
+                        if (_formKey.currentState!.validate()) {
+                          ref.read(loaderMessageProvider.notifier).updateMessage('LOGGING...');
+                          context.loaderOverlay.show();
+                          await Future.delayed(const Duration(seconds: 3));
+                          if (context.mounted) {
+                            context.loaderOverlay.hide();
+                            context.go('/home');
+                          }
                         }
                       },
                     );
@@ -224,6 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    )
     );
   }
 }
