@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/widgets/primary_button.dart';
+import '../../core/widgets/custom_loader_overlay.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -19,7 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  bool _receiveEmails = false;
+  bool _checkedPrivacy = false;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -209,58 +212,94 @@ class _SignupScreenState extends State<SignupScreen> {
                 const SizedBox(height: 24),
 
                 // Checkbox
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Checkbox(
-                        value: _receiveEmails,
-                        onChanged: (value) {
-                          setState(() {
-                            _receiveEmails = value ?? false;
-                          });
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        side: BorderSide(color: Colors.grey.shade400, width: 1.5),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black87,
-                            height: 1.4,
-                          ),
-                          children: const [
-                            TextSpan(text: 'Tick here to receive emails about our products, apps, sales, exclusive content and more. See our '),
-                            TextSpan(
-                              text: 'Privacy Policy.',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
+                FormField<bool>(
+                  validator: (value) {
+                    if (!_checkedPrivacy) {
+                      return 'You must accept the Privacy Policy to continue';
+                    }
+                    return null;
+                  },
+                  builder: (state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: Checkbox(
+                                value: _checkedPrivacy,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _checkedPrivacy = value ?? false;
+                                    state.didChange(value);
+                                  });
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                side: BorderSide(color: state.hasError ? Colors.redAccent : Colors.grey.shade400, width: 1.5),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.black87,
+                                    height: 1.4,
+                                  ),
+                                  children: const [
+                                    TextSpan(text: 'Tick here to receive emails about our products, apps, sales, exclusive content and more. See our '),
+                                    TextSpan(
+                                      text: 'Privacy Policy.',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
+                        if (state.hasError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, left: 36),
+                            child: Text(
+                              state.errorText!,
+                              style: const TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 32),
 
                 // Create Account Button
-                PrimaryButton(
-                  text: 'CREATE ACCOUNT',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Navigate to home or wherever appropriate
-                      context.go('/home');
-                    }
+                Consumer(
+                  builder: (context, ref, child) {
+                    return PrimaryButton(
+                      text: 'CREATE ACCOUNT',
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          ref.read(loaderMessageProvider.notifier).updateMessage('CREATING\\nACCOUNT...');
+                          context.loaderOverlay.show();
+                          await Future.delayed(const Duration(seconds: 3));
+                          if (context.mounted) {
+                            context.loaderOverlay.hide();
+                            context.go('/home');
+                          }
+                        }
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 24),
