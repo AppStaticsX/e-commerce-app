@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/auth/splash_screen.dart';
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/signup_screen.dart';
 import '../../features/products/home_screen.dart';
@@ -179,7 +178,7 @@ class AppRouter {
   static final router = GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: '/login',
         pageBuilder: (context, state) => CustomTransitionPage(
