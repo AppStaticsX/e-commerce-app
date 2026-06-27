@@ -4,6 +4,7 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/custom_loader_overlay.dart';
 
@@ -355,6 +356,19 @@ class _SignupScreenState extends State<SignupScreen> {
                                 .read(loaderMessageProvider.notifier)
                                 .updateMessage('CREATING\nACCOUNT...');
                             context.loaderOverlay.show();
+                            
+                            // Save user details
+                            final usersBox = Hive.box('users');
+                            await usersBox.put(_emailController.text, {
+                              'firstName': _firstNameController.text,
+                              'lastName': _lastNameController.text,
+                              'dob': _dobController.text,
+                              'password': _passwordController.text,
+                            });
+                            
+                            final sessionBox = Hive.box('session');
+                            await sessionBox.put('currentUser', _emailController.text);
+                            
                             await Future.delayed(const Duration(seconds: 3));
                             if (context.mounted) {
                               context.loaderOverlay.hide();

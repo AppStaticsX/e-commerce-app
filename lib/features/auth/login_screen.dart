@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/custom_loader_overlay.dart';
 
@@ -198,14 +199,46 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: 'LOG IN',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            ref
-                                .read(loaderMessageProvider.notifier)
-                                .updateMessage('LOGGING...');
-                            context.loaderOverlay.show();
-                            await Future.delayed(const Duration(seconds: 3));
-                            if (context.mounted) {
-                              context.loaderOverlay.hide();
-                              context.go('/home');
+                            final usersBox = Hive.box('users');
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            
+                            final userData = usersBox.get(email);
+                            
+                            if (userData != null && userData['password'] == password) {
+                              final sessionBox = Hive.box('session');
+                              await sessionBox.put('currentUser', email);
+                              
+                              ref
+                                  .read(loaderMessageProvider.notifier)
+                                  .updateMessage('LOGGING...');
+                              if (context.mounted) {
+                                context.loaderOverlay.show();
+                              }
+                              await Future.delayed(const Duration(seconds: 3));
+                              if (context.mounted) {
+                                context.loaderOverlay.hide();
+                                context.go('/home');
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Invalid email or password.',
+                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  ),
+                                  backgroundColor: Colors.redAccent,
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.height - 120,
+                                    left: 20,
+                                    right: 20,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              );
                             }
                           }
                         },

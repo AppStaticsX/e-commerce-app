@@ -15,6 +15,18 @@ void main() async {
   await Hive.openBox('settings');
   await Hive.openBox('cart');
   await Hive.openBox('favorites');
+  
+  final usersBox = await Hive.openBox('users');
+  if (usersBox.isEmpty) {
+    await usersBox.put('demo@ministore.com', {
+      'firstName': 'Demo',
+      'lastName': 'Administrator',
+      'dob': '1981-01-01',
+      'password': 'Demo@admin#1',
+    });
+  }
+  
+  await Hive.openBox('session');
 
   runApp(
     const ProviderScope(
