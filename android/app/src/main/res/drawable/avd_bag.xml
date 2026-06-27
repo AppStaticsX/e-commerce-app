@@ -11,7 +11,7 @@
       <path
         android:name="path"
         android:pathData="M 0 0 L 288 0 L 288 288 L 0 288 Z"
-        android:fillColor="@android:color/white"
+        android:fillColor="#F5F5F5"
         android:strokeWidth="1"/>
       <group android:name="wrapper">
         <clip-path
@@ -22,7 +22,7 @@
             <path
               android:name="path_1"
               android:pathData="M 226 62 L 62 62 L 62 226 L 226 226 L 226 62 Z"
-              android:fillColor="@android:color/white"
+              android:fillColor="#F5F5F5"
               android:strokeWidth="1"/>
           </group>
           <group android:name="group">
@@ -36,7 +36,7 @@
               <path
                 android:name="path_2"
                 android:pathData="M 171.333 121.792 C 168.532 121.792 166.208 119.468 166.208 116.667 L 166.208 92.75 C 166.208 85.37 161.63 80.792 154.25 80.792 L 133.75 80.792 C 126.37 80.792 121.792 85.37 121.792 92.75 L 121.792 116.667 C 121.792 119.468 119.468 121.792 116.667 121.792 C 113.865 121.792 111.542 119.468 111.542 116.667 L 111.542 92.75 C 111.542 79.698 120.698 70.542 133.75 70.542 L 154.25 70.542 C 167.302 70.542 176.458 79.698 176.458 92.75 L 176.458 116.667 C 176.458 119.468 174.135 121.792 171.333 121.792 Z"
-                android:fillColor="@android:color/black"
+                android:fillColor="#1E1E1E"
                 android:strokeWidth="1"/>
             </group>
 
@@ -49,7 +49,7 @@
               <path
                 android:name="path_3"
                 android:pathData="M 116.667 183.497 C 113.866 183.497 111.542 181.173 111.542 178.372 C 111.542 175.502 113.866 173.247 116.667 173.247 L 197.027 173.247 C 199.077 173.247 200.649 171.47 200.444 169.42 L 195.797 130.538 C 194.157 117.282 191.834 106.417 168.601 106.417 L 119.401 106.417 C 96.167 106.417 93.844 117.282 92.272 130.538 L 86.122 181.788 C 84.141 198.598 89.334 212.333 113.319 212.333 L 174.682 212.333 C 196.276 212.333 202.631 201.195 202.289 186.708 C 202.221 184.863 200.717 183.497 198.872 183.497 L 116.667 183.497 Z"
-                android:fillColor="@android:color/black"
+                android:fillColor="#1E1E1E"
                 android:strokeWidth="1"/>
             </group>
 
