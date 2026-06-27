@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: const Color(0xFFDCDCDC), // Light grey background
+      backgroundColor: Theme.of(context).brightness == Brightness.light ? const Color(0xFFDCDCDC) : const Color(0xFF2C2C2C),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -51,14 +51,14 @@ class ProfileScreen extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFFDCDCDC), // Match scaffold background
+                      color: Theme.of(context).brightness == Brightness.light ? const Color(0xFFDCDCDC) : const Color(0xFF2C2C2C), // Match scaffold background
                       width: 3,
                     ),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.edit,
                     size: 16,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
               ],
@@ -69,13 +69,13 @@ class ProfileScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.06),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.radio_button_checked, size: 14, color: Colors.black.withValues(alpha: 0.6)),
+                  Icon(Icons.radio_button_checked, size: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
                   const SizedBox(width: 8),
                   Text(
                     currentUserEmail.toString().toUpperCase(),
@@ -103,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -123,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                           Container(
                             height: 10,
                             width: double.infinity,
-                            color: const Color(0xFFF5F5F5),
+                            color: Theme.of(context).brightness == Brightness.light ? const Color(0xFFF5F5F5) : const Color(0xFF1E1E1E),
                           ),
                           const SizedBox(height: 24),
                           

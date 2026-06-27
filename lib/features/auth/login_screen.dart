@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
       ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF6B7280)),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).colorScheme.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: Colors.black, width: 1.5),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface, width: 1.5),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Icon(
                       Iconsax.shopping_bag_copy,
                       size: 80,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Forgot password?',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onSurface,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -277,6 +277,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           'assets/icon/auth/auth_apple.svg',
                           width: 30,
                           height: 30,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ],
@@ -291,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Don't have an account? ",
                         style: Theme.of(
                           context,
-                        ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+                        ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87)),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -302,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 decoration: TextDecoration.underline,
                               ),
                         ),

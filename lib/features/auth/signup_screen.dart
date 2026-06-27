@@ -61,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
         context,
       ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF6B7280)),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).colorScheme.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -69,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: Colors.black, width: 1.5),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface, width: 1.5),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -87,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -106,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Icon(
                       Iconsax.shopping_bag_copy,
                       size: 80,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -302,14 +302,14 @@ class _SignupScreenState extends State<SignupScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: RichText(
-                                  text: TextSpan(
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: Colors.black87,
-                                          height: 1.4,
-                                        ),
+                                    text: TextSpan(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
+                                            height: 1.4,
+                                          ),
                                     children: const [
                                       TextSpan(
                                         text:
@@ -389,7 +389,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         "Already have an account? ",
                         style: Theme.of(
                           context,
-                        ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+                        ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87)),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -400,7 +400,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 decoration: TextDecoration.underline,
                               ),
                         ),

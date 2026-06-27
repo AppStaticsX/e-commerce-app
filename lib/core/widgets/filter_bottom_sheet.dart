@@ -95,14 +95,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ],
             ),
           ),
-          Divider(height: 1, color: Colors.grey.shade200),
+          
           
           // Filter List
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.zero,
               itemCount: filters.length,
-              separatorBuilder: (context, index) => Divider(height: 1, color: Colors.grey.shade100),
+              separatorBuilder: (context, index) => Divider(height: 0.5, color: Colors.grey),
               itemBuilder: (context, index) {
                 final filter = filters[index];
                 final isExpanded = expandedFilter == filter;
