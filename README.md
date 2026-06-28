@@ -31,12 +31,12 @@ A sleek, modern, and highly interactive E-Commerce application built with **Flut
 ### Light Mode
 <p align="center">
   <img src="assets/Screenshots/light/Screenshot_1782625532.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625626.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625570.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625577.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625585.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625605.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625617.png" width="200" />
-  <img src="assets/Screenshots/light/Screenshot_1782625626.png" width="200" />
 </p>
 
 ## Default Credentials
