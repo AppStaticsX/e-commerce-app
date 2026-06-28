@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.radio_button_checked, size: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
+                  Icon(Icons.radio_button_checked, size: 14, color: Colors.greenAccent),
                   const SizedBox(width: 8),
                   Text(
                     currentUserEmail.toString().toUpperCase(),
