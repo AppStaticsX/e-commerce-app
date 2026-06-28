@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../data/models/product.dart';
 
@@ -99,3 +100,5 @@ class CartNotifier extends Notifier<List<CartItem>> {
 }
 
 final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(CartNotifier.new);
+
+final promoProvider = StateProvider<bool>((ref) => false);

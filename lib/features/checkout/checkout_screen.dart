@@ -24,6 +24,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final cartNotifier = ref.watch(cartProvider.notifier);
+    final isPromoApplied = ref.watch(promoProvider);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -94,6 +95,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               ],
             ),
             const SizedBox(height: 8),
+            if (isPromoApplied) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Promo (10% OFF)',
+                    style: Theme.of(context).textTheme.bodyLarge
+                        ?.copyWith(color: Colors.green),
+                  ),
+                  Text(
+                    '-\$${(cartNotifier.totalAmount * 0.10).toStringAsFixed(2)} USD',
+                    style: Theme.of(context).textTheme.bodyLarge
+                        ?.copyWith(color: Colors.green),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+            ],
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -103,7 +122,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '\$${cartNotifier.totalAmount.toStringAsFixed(2)} USD',
+                  '\$${(isPromoApplied ? cartNotifier.totalAmount * 0.90 : cartNotifier.totalAmount).toStringAsFixed(2)} USD',
                   style: Theme.of(context).textTheme.titleLarge
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),

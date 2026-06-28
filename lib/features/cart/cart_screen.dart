@@ -12,13 +12,35 @@ import '../../core/widgets/circular_icon_button.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../core/widgets/custom_loader_overlay.dart';
 
-class CartScreen extends ConsumerWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends ConsumerState<CartScreen> {
+  final TextEditingController _promoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _promoController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _promoController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final cartItems = ref.watch(cartProvider);
     final notifier = ref.read(cartProvider.notifier);
+    final isPromoApplied = ref.watch(promoProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -254,7 +276,7 @@ class CartScreen extends ConsumerWidget {
                           );
                         },
                       ),
-
+                      const SizedBox(height: 24),
                       // DISCOUNTS Section
                       Text(
                         'DISCOUNTS',
@@ -275,8 +297,9 @@ class CartScreen extends ConsumerWidget {
                                 ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const TextField(
-                                decoration: InputDecoration(
+                              child: TextField(
+                                controller: _promoController,
+                                decoration: const InputDecoration(
                                   hintText: 'ENTER PROMO-CODE',
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
@@ -289,20 +312,39 @@ class CartScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Text(
-                              'APPLY',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: _promoController.text.trim().isEmpty || isPromoApplied 
+                              ? null 
+                              : () {
+                                FocusScope.of(context).unfocus();
+                                ref.read(promoProvider.notifier).state = true;
+                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text('Promo code applied successfully!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'MI')),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                );
+                              },
+                            child: Opacity(
+                              opacity: _promoController.text.trim().isEmpty && !isPromoApplied ? 0.5 : 1.0,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 16,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isPromoApplied ? Theme.of(context).primaryColor : (_promoController.text.trim().isNotEmpty ? Theme.of(context).primaryColor : Colors.grey.shade100),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Text(
+                                  isPromoApplied ? 'APPLIED' : 'APPLY',
+                                  style: TextStyle(
+                                    color: isPromoApplied || _promoController.text.trim().isNotEmpty ? Theme.of(context).scaffoldBackgroundColor : Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -366,6 +408,25 @@ class CartScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+
+                      if (isPromoApplied) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Promo (10% OFF)',
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(color: Colors.green),
+                            ),
+                            Text(
+                              '-\$${(notifier.totalAmount * 0.10).toStringAsFixed(2)} USD',
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(color: Colors.green),
+                            ),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -376,7 +437,7 @@ class CartScreen extends ConsumerWidget {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '\$${notifier.totalAmount.toStringAsFixed(2)} USD',
+                            '\$${(isPromoApplied ? notifier.totalAmount * 0.90 : notifier.totalAmount).toStringAsFixed(2)} USD',
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
