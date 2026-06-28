@@ -22,7 +22,7 @@ A sleek, modern, and highly interactive E-Commerce application built with **Flut
 <p align="center">
   <img src="assets/Screenshots/dark/Screenshot_1782625251.png" width="200" />
   <img src="assets/Screenshots/dark/Screenshot_1782625256.png" width="200" />
-  <img src="assets/Screenshots/dark/Screenshot_1782625282.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782629501.png" width="200" />
   <img src="assets/Screenshots/dark/Screenshot_1782625340.png" width="200" />
   <img src="assets/Screenshots/dark/Screenshot_1782625350.png" width="200" />
   <img src="assets/Screenshots/dark/Screenshot_1782625366.png" width="200" />
@@ -33,7 +33,7 @@ A sleek, modern, and highly interactive E-Commerce application built with **Flut
 <p align="center">
   <img src="assets/Screenshots/light/Screenshot_1782625532.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625626.png" width="200" />
-  <img src="assets/Screenshots/light/Screenshot_1782625570.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782629480.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625577.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625585.png" width="200" />
   <img src="assets/Screenshots/light/Screenshot_1782625605.png" width="200" />
@@ -87,6 +87,10 @@ Follow these instructions to set up and run the project on your local machine.
 - **`iconsax_flutter`**: Premium icons used throughout the UI.
 - **`flutter_staggered_grid_view`**: For the dynamic masonry product grid layout.
 - **`loader_overlay`**: For beautiful loading states during async actions (like checkout).
+
+## Design Inspiration
+
+The UI and overall aesthetic of this application were inspired by this amazing [Figma Community Design](https://www.figma.com/design/uzk08KEIWMteGS7CPUMjTn/Mobile-eCommerce-Clothing-Store-App-Design--Community-?node-id=1-3&p=f) by its original creator.
 
 ---
 *Developed with ❤️ using Flutter.*
