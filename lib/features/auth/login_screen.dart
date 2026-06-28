@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Subtitle
                   Text(
-                    'Shop your styles, save top picks to your wishlist,\ntrack those orders & train with us.',
+                    'Shop your styles, save top picks to your wishlist,\ntrack those orders with us.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey.shade700,
