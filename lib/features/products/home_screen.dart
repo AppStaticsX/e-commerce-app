@@ -7,6 +7,7 @@ import 'widgets/product_card.dart';
 import '../../core/widgets/filter_bottom_sheet.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../data/models/product.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -141,6 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
       filteredProducts = filteredProducts.reversed.toList();
     }
 
+    final sessionBox = Hive.box('session');
+    final currentUserEmail = sessionBox.get('currentUser', defaultValue: 'demo@ministore.com');
+    final usersBox = Hive.box('users');
+    final userData = usersBox.get(currentUserEmail) as Map<dynamic, dynamic>?;
+    final firstName = userData?['firstName'] as String? ?? '';
+    final lastName = userData?['lastName'] as String? ?? '';
+    final fullName = '$firstName $lastName'.trim();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -162,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Albert Stevano'.toUpperCase(),
+                        fullName.isNotEmpty ? fullName.toUpperCase() : 'GUEST',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ],
@@ -340,17 +349,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Product Grid
               Expanded(
-                child: MasonryGridView.count(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  itemCount: filteredProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = filteredProducts[index];
-                    return ProductCard(product: product, index: index);
-                  },
-                ),
+                child: filteredProducts.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Iconsax.search_status_1_copy,
+                              size: 80,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No products found',
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Try adjusting your filters or search query.',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : MasonryGridView.count(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        itemCount: filteredProducts.length,
+                        itemBuilder: (context, index) {
+                          final product = filteredProducts[index];
+                          return ProductCard(product: product, index: index);
+                        },
+                      ),
               ),
             ],
           ),
