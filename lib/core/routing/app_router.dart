@@ -11,6 +11,7 @@ import '../../features/checkout/checkout_screen.dart';
 import '../../data/models/product.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../features/cart/cart_provider.dart';
 
 // Custom Bottom Navigation Bar wrapper
@@ -177,7 +178,7 @@ class _NavBarItem extends StatelessWidget {
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: '/',
+    initialLocation: Hive.box('session').get('currentUser') != null ? '/home' : '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
       GoRoute(

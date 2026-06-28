@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -130,6 +131,19 @@ class ProfileScreen extends StatelessWidget {
                           _buildMenuItem(context, title: 'SETTINGS'),
                           _buildMenuItem(context, title: 'SUPPORT'),
                           _buildMenuItem(context, title: 'REFER A FRIEND'),
+                          const SizedBox(height: 12),
+                          _buildMenuItem(
+                            context,
+                            title: 'LOGOUT',
+                            textColor: Colors.red,
+                            onTap: () async {
+                              final sessionBox = Hive.box('session');
+                              await sessionBox.delete('currentUser');
+                              if (context.mounted) {
+                                context.go('/login');
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -148,6 +162,7 @@ class ProfileScreen extends StatelessWidget {
     required String title,
     String? trailingText,
     String? subtitle,
+    Color? textColor,
     VoidCallback? onTap,
   }) {
     return InkWell(
@@ -165,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.5,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: textColor ?? Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               if (trailingText != null)
