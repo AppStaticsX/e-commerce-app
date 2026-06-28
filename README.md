@@ -88,9 +88,13 @@ Follow these instructions to set up and run the project on your local machine.
 - **`flutter_staggered_grid_view`**: For the dynamic masonry product grid layout.
 - **`loader_overlay`**: For beautiful loading states during async actions (like checkout).
 
-## Design Inspiration
+## Design Inspiration & Acknowledgements
 
 The UI and overall aesthetic of this application were inspired by this amazing [Figma Community Design](https://www.figma.com/design/uzk08KEIWMteGS7CPUMjTn/Mobile-eCommerce-Clothing-Store-App-Design--Community-?node-id=1-3&p=f) by its original creator.
+
+**Typography**: The application uses the clean and highly legible **MiSans** font, available from [Xiaomi HyperOS Fonts](https://hyperos.mi.com/font/en/details/latin/).
+
+**Icons**: The custom SVG icons used for categories and payments were sourced from [SVG Repo](https://www.svgrepo.com/).
 
 ---
 *Developed with ❤️ using Flutter.*
