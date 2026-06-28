@@ -1,5 +1,9 @@
 # Mini Store E-Commerce App
 
+<p align="center">
+  <img src="assets/app_icon.png" width="150" alt="Mini-Store Icon"/>
+</p>
+
 A sleek, modern, and highly interactive E-Commerce application built with **Flutter**. This application features a premium UI design (including dark mode), complex animations, and full offline persistence for a seamless shopping experience.
 
 ## Features
@@ -10,6 +14,30 @@ A sleek, modern, and highly interactive E-Commerce application built with **Flut
 - **Routing**: Smooth nested navigation and page transitions using **GoRouter**.
 - **Simulated Checkout**: A complete end-to-end simulated checkout flow including form validations, promo code application (10% off), and animated success screens.
 - **Wishlist & Cart**: Add products to your wishlist or cart with dynamic badge updates in the bottom navigation bar.
+
+## Screenshots
+
+### Dark Mode
+<p align="center">
+  <img src="assets/Screenshots/dark/Screenshot_1782625251.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625256.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625282.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625340.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625350.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625366.png" width="200" />
+  <img src="assets/Screenshots/dark/Screenshot_1782625388.png" width="200" />
+</p>
+
+### Light Mode
+<p align="center">
+  <img src="assets/Screenshots/light/Screenshot_1782625532.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625570.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625577.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625585.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625605.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625617.png" width="200" />
+  <img src="assets/Screenshots/light/Screenshot_1782625626.png" width="200" />
+</p>
 
 ## Default Credentials
 
