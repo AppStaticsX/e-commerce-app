@@ -34,6 +34,7 @@ flutter:
     - assets/icon/categories/
     - assets/icon/gender/
     - assets/icon/auth/
+    - assets/icon/payment/
     - assets/data/
 
   fonts:

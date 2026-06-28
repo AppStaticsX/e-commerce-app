@@ -7,6 +7,7 @@ import '../../features/products/product_details_screen.dart';
 import '../../features/favorites/favorites_screen.dart';
 import '../../features/cart/cart_screen.dart';
 import '../../features/profile/profile_screen.dart';
+import '../../features/checkout/checkout_screen.dart';
 import '../../data/models/product.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -244,6 +245,10 @@ class AppRouter {
           final product = state.extra as Product;
           return ProductDetailsScreen(product: product);
         },
+      ),
+      GoRoute(
+        path: '/checkout',
+        builder: (context, state) => const CheckoutScreen(),
       ),
     ],
   );

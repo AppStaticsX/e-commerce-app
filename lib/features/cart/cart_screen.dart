@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'cart_provider.dart';
@@ -53,7 +54,7 @@ class CartScreen extends ConsumerWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: cartItems.length,
                         separatorBuilder: (context, index) => const Divider(
-                          height: 48,
+                          height: 24,
                           color: Colors.transparent,
                         ),
                         itemBuilder: (context, index) {
@@ -80,15 +81,11 @@ class CartScreen extends ConsumerWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Discount tag
-                                        if (item.product.oldPrice >
-                                                item.product.price)
+                                    if (item.product.oldPrice > item.product.price) ...[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
                                           Container(
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 8,
@@ -96,8 +93,7 @@ class CartScreen extends ConsumerWidget {
                                             ),
                                             decoration: BoxDecoration(
                                               color: Colors.grey.shade100,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: BorderRadius.circular(4),
                                             ),
                                             child: Text(
                                               '${((item.product.oldPrice - item.product.price) / item.product.oldPrice * 100).round()}% OFF | SAVE \$${(item.product.oldPrice - item.product.price).toStringAsFixed(2)}',
@@ -108,67 +104,73 @@ class CartScreen extends ConsumerWidget {
                                               ),
                                             ),
                                           ),
-                                        if (item.product.oldPrice <=
-                                                item.product.price)
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 4,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade100,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                            ),
-                                            child: const Text(
-                                              'No Discount',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(
-                                              Iconsax.heart_copy,
+                                          GestureDetector(
+                                            onTap: () async {
+                                              ref.read(loaderMessageProvider.notifier).updateMessage('REMOVING\nFROM CART...');
+                                              context.loaderOverlay.show();
+                                              await Future.delayed(const Duration(milliseconds: 1500));
+                                              if (context.mounted) {
+                                                context.loaderOverlay.hide();
+                                                notifier.removeCartItem(item);
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Iconsax.trash_copy,
                                               size: 20,
+                                              color: Colors.redAccent,
                                             ),
-                                            const SizedBox(width: 12),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                ref.read(loaderMessageProvider.notifier).updateMessage('REMOVING\nFROM CART...');
-                                                context.loaderOverlay.show();
-                                                await Future.delayed(const Duration(milliseconds: 1500));
-                                                if (context.mounted) {
-                                                  context.loaderOverlay.hide();
-                                                  notifier.removeCartItem(item);
-                                                }
-                                              },
-                                              child: const Icon(
-                                                Iconsax.trash_copy,
-                                                size: 20,
-                                                color: Colors.redAccent,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      item.product.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.normal,
                                           ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        item.product.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ] else ...[
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              item.product.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              ref.read(loaderMessageProvider.notifier).updateMessage('REMOVING\nFROM CART...');
+                                              context.loaderOverlay.show();
+                                              await Future.delayed(const Duration(milliseconds: 1500));
+                                              if (context.mounted) {
+                                                context.loaderOverlay.hide();
+                                                notifier.removeCartItem(item);
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Iconsax.trash_copy,
+                                              size: 20,
+                                              color: Colors.redAccent,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
 
                                     Text(
                                       '${item.product.colors.firstWhere((c) => c.code == item.color, orElse: () => ProductColor(code: item.color ?? "", name: "Default")).name} - ${item.size ?? "M"}',
@@ -252,7 +254,6 @@ class CartScreen extends ConsumerWidget {
                           );
                         },
                       ),
-                      const SizedBox(height: 48),
 
                       // DISCOUNTS Section
                       Text(
@@ -404,7 +405,9 @@ class CartScreen extends ConsumerWidget {
                   child: PrimaryButton(
                     text: 'CHECKOUT SECURELY',
                     icon: const Icon(Iconsax.lock),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push('/checkout');
+                    },
                   ),
                 ),
               ],

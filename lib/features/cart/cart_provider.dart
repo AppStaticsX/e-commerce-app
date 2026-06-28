@@ -91,6 +91,11 @@ class CartNotifier extends Notifier<List<CartItem>> {
   int get totalItems {
     return state.fold(0, (total, item) => total + item.quantity);
   }
+
+  void clearCart() {
+    state = [];
+    _saveToHive();
+  }
 }
 
 final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(CartNotifier.new);

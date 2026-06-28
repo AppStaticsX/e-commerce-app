@@ -39,9 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
       labelStyle: Theme.of(
         context,
       ).textTheme.bodyLarge?.copyWith(color: const Color(0xFF6B7280)),
-      filled: true,
+      filled: false,
       fillColor: Theme.of(context).colorScheme.surface,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
