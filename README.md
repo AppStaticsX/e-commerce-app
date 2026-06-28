@@ -9,6 +9,7 @@ A sleek, modern, and highly interactive E-Commerce application built with **Flut
 ## Features
 
 - **Premium UI / UX**: Beautiful product discovery pages, dynamic grid layouts, micro-animations, and custom modal bottom sheets.
+- **Native Splash Screen**: Integrated smooth native splash screen using the latest Android 12+ Splash Screen API (Jetpack / Material 3) and iOS Launch Storyboards.
 - **State Management**: Robust state management using **Riverpod**.
 - **Local Storage**: Full local offline persistence for cart, favorites, user sessions, and settings using **Hive**.
 - **Routing**: Smooth nested navigation and page transitions using **GoRouter**.
