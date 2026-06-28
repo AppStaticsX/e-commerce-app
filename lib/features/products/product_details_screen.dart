@@ -410,7 +410,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           ],
         ),
         child: PrimaryButton(
-          text: 'Add to Cart',
+          text: 'ADD TO BAG',
           icon: const Icon(Iconsax.shopping_bag),
           onPressed: () async {
             ref
