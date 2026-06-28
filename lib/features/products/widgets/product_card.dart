@@ -118,9 +118,24 @@ class ProductCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '\$${product.price.toStringAsFixed(2)}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  Text(
+                    '\$${product.price.toStringAsFixed(2)}',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  if (product.oldPrice > product.price) ...[
+                    const SizedBox(width: 6),
+                    Text(
+                      '\$${product.oldPrice.toStringAsFixed(2)}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.redAccent,
+                        decoration: TextDecoration.lineThrough,
+                        decorationColor: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ],
               ),
               Row(
                 children: [

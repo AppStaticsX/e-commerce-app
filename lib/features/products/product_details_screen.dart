@@ -30,10 +30,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.product.sizes.isNotEmpty)
+    if (widget.product.sizes.isNotEmpty) {
       selectedSize = widget.product.sizes.first;
-    if (widget.product.colors.isNotEmpty)
+    }
+    if (widget.product.colors.isNotEmpty) {
       selectedColor = widget.product.colors.first.code;
+    }
   }
 
   @override
@@ -126,8 +128,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         CircularIconButton(
                                           icon: Iconsax.minus_copy,
                                           onPressed: () {
-                                            if (quantity > 1)
+                                            if (quantity > 1) {
                                               setState(() => quantity--);
+                                            }
                                           },
                                         ),
                                         const SizedBox(width: 16),

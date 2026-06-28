@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -40,10 +41,8 @@ class ProfileScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
-                  child: Icon(
-                    Icons.person,
-                    size: 50,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                  backgroundImage: const CachedNetworkImageProvider(
+                    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
                   ),
                 ),
                 Container(
