@@ -11,6 +11,8 @@ import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/circular_icon_button.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../core/widgets/custom_loader_overlay.dart';
+import '../../core/widgets/no_internet_widget.dart';
+import '../../core/providers/connectivity_provider.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
@@ -38,9 +40,37 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hasInternetAsync = ref.watch(connectivityProvider);
+    final hasInternet = hasInternetAsync.value ?? true;
+
     final cartItems = ref.watch(cartProvider);
     final notifier = ref.read(cartProvider.notifier);
     final isPromoApplied = ref.watch(promoProvider);
+
+    if (!hasInternet) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'BAG',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'MI',
+            ),
+          ),
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          elevation: 4,
+          shadowColor: Colors.black.withValues(alpha: 0.3),
+          surfaceTintColor: Colors.transparent,
+        ),
+        body: NoInternetWidget(
+          onRetry: () {
+            ref.invalidate(connectivityProvider);
+          },
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

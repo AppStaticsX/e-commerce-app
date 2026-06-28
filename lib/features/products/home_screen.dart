@@ -9,6 +9,9 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../data/models/product.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
+import '../../core/widgets/no_internet_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,11 +36,30 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> _sizes = [];
   bool _isLoading = true;
   String? _errorMessage;
+  bool _hasInternet = true;
+  late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
+    _checkInitialConnectivity();
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> results) {
+      if (mounted) {
+        setState(() {
+          _hasInternet = !results.contains(ConnectivityResult.none);
+        });
+      }
+    });
     _loadData();
+  }
+
+  Future<void> _checkInitialConnectivity() async {
+    final results = await Connectivity().checkConnectivity();
+    if (mounted) {
+      setState(() {
+        _hasInternet = !results.contains(ConnectivityResult.none);
+      });
+    }
   }
 
   Future<void> _loadData() async {
@@ -64,12 +86,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _connectivitySubscription.cancel();
     _searchController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_hasInternet) {
+      return Scaffold(
+        body: NoInternetWidget(
+          onRetry: () async {
+            await _checkInitialConnectivity();
+            if (_hasInternet && _products.isEmpty) {
+              _loadData();
+            }
+          },
+        ),
+      );
+    }
     if (_isLoading) {
       return Scaffold(
         body: Center(

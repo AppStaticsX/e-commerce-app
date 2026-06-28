@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/widgets/no_internet_widget.dart';
+import '../../core/providers/connectivity_provider.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasInternetAsync = ref.watch(connectivityProvider);
+    final hasInternet = hasInternetAsync.value ?? true;
+
+    if (!hasInternet) {
+      return Scaffold(
+        body: NoInternetWidget(
+          onRetry: () {
+            ref.invalidate(connectivityProvider);
+          },
+        ),
+      );
+    }
+
     final sessionBox = Hive.box('session');
     final currentUserEmail = sessionBox.get('currentUser', defaultValue: 'demo@ministore.com');
     final usersBox = Hive.box('users');

@@ -7,6 +7,8 @@ import '../../core/widgets/filter_bottom_sheet.dart';
 import 'favorites_provider.dart';
 import '../products/widgets/product_card.dart';
 import '../../data/models/product.dart';
+import '../../core/widgets/no_internet_widget.dart';
+import '../../core/providers/connectivity_provider.dart';
 
 class FavoritesScreen extends ConsumerStatefulWidget {
   const FavoritesScreen({super.key});
@@ -28,6 +30,34 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hasInternetAsync = ref.watch(connectivityProvider);
+    final hasInternet = hasInternetAsync.value ?? true;
+
+    if (!hasInternet) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'WISHLIST',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'MI',
+            ),
+          ),
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          elevation: 4,
+          shadowColor: Colors.black.withValues(alpha: 0.3),
+          surfaceTintColor: Colors.transparent,
+        ),
+        body: NoInternetWidget(
+          onRetry: () {
+            ref.invalidate(connectivityProvider);
+          },
+        ),
+      );
+    }
+
     final favorites = ref.watch(favoritesProvider);
 
     // Apply filtering
