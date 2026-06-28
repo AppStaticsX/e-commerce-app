@@ -1,8 +1,8 @@
-# Mini Store E-Commerce App
-
 <p align="center">
   <img src="assets/app_icon.png" width="150" alt="Mini-Store Icon"/>
 </p>
+
+# Mini Store E-Commerce App
 
 A sleek, modern, and highly interactive E-Commerce application built with **Flutter**. This application features a premium UI design (including dark mode), complex animations, and full offline persistence for a seamless shopping experience.
 
